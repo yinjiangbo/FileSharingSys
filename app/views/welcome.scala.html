@@ -1,0 +1,51 @@
+@(hostIp: String,message:String,preIp:String,prePort:String,fingers:List[String])
+@import helper._
+@play.api.Play.maybeApplication.filterNot(_.mode != play.api.Mode.Dev).map { _ =>  
+<link rel="stylesheet" media="screen" href="/@@documentation/resources/style/main.css">
+<section id="top">
+    <div class="wrapper">
+        <h1><a href="/@@documentation">@message</a></h1>
+        <nav>
+            <span class="versions">
+                <span>Browse APIs</span>
+                <select onchange="document.location=this.value">
+                    <option selected disabled>Select language</option>
+                    <option value="/@@documentation/api/java/index.html">Java</option>
+                </select>
+            </span>
+        </nav>
+    </div>
+</section>
+<div id="content" class="wrapper doc">
+<pre><code>
+<div
+<h3> </h3>
+<li>Current Node infomation:</li>
+<td>  IP:   @hostIp</td> 
+<td>  Port:  9000</td>
+<td>  NodeId:@((hostIp+":9000").hashCode())</td>
+<h3> </h3>
+<li>Previous Node infomation:</li>
+<td>  IP:   @preIp</td> 
+<td>  Port: @prePort</td>
+<td>  NodeId:@((preIp+":"+prePort).hashCode())</td>
+<h3> </h3>
+<li>FingerTable infomation:</li>
+@fingers.map { finger => 
+<td>@finger</td>
+}
+<h3> </h3>
+<li>Nodes Operations:</li>
+<h3>  Add current host:@form(routes.Application.Addnode(hostIp+":9000")){<input type="submit" value="Add current host"/>}</h3>
+<h3>  Update current host:@form(routes.Application.Updatenode()){Input port:<input type='text' name='ret' /><input type="submit" value="Update current host"/>}</h3>
+<h3>  Lookup nodeid:@form(routes.Application.Lookupnode()){Input nodeid:<input type='text' name='ret' /><input type="submit" value="Lookup nodeid"/>}</h3>
+
+<h3> </h3>
+<li>Keys(files) Operations:</li>
+<h3>  Add Keys(files):@form(routes.Application.Addnode(hostIp+":9000")){<input type="submit" value="Add current host"/>}</h3>
+<h3>  Update current host:@form(routes.Application.Updatenode()){Input port:<input type='text' name='ret' /><input type="submit" value="Update current host"/>}</h3>
+<h3>  Lookup Keys(files):@form(routes.Application.Lookupnode()){Input nodeid:<input type='text' name='ret' /><input type="submit" value="Lookup nodeid"/>}</h3>
+<h3>  Delete Keys(files):@form(routes.Application.Lookupnode()){Input nodeid:<input type='text' name='ret' /><input type="submit" value="Lookup nodeid"/>}</h3>
+</code></pre>
+  }  
+</div>
